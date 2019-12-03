@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head lang = "en">
+        <title>Twitter Login</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <h1>Please Login</h1>
+        
+        <div th:if="${param.error}" class="alert alert-error">    
+                Invalid username and password.
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success"> 
+                You have been logged out.
+        </div>
+        
+        <form name="f" th:action="@{/login}" method="post">
+            <table>
+                <tr>
+                    <td><label for="username">Username</label></td>
+                    <td><input type="text" id="username" name="username"/></td>
+                </tr>
+                <tr>
+                    <td><label for="password">Password</label></td>
+                    <td><input type="password" id="password" name="password"/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Log In"/></td>
+                </tr>
+            </table>
+            
+            <a th:href="@{/registration}">Sign Up</a>
+        </form>
+    </body>
+</html>
