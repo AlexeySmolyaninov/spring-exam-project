@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="head(title)" lang="en">
+        <title th:text='${title}'>Layout</title>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <div th:fragment="note(notification)" id="notification">
+            <div id="success" th:if="${notification.goodMsg == true}">
+                <p th:text="${notification.msg}">Successful message</p>
+            </div>
+            <div id="error" th:if="${notification.goodMsg == false}">
+                <p th:text="${notification.msg}">Some error message</p>
+            </div>
+        </div>
+        
+        <div th:fragment="navbar">
+            <ul>
+                <li><a th:href="@{/account}">Home</a></li>
+                <li><a th:href="@{/search}">Find people</a></li>
+                <li><a th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </div>
+    </body>
+</html>

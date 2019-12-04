@@ -1,4 +1,4 @@
-package projekti;
+package projekti.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import projekti.account.AccountRepository;
+import projekti.account.AccountService;
 
 @Configuration
 @EnableWebSecurity
@@ -18,6 +20,9 @@ public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapt
 
     @Autowired
     private UserDetailsService userDetailsService;
+    
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -28,7 +33,7 @@ public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapt
             .antMatchers(HttpMethod.GET, "/registration").permitAll()
             .antMatchers(HttpMethod.POST, "/account").permitAll()
             .anyRequest().authenticated();
-        http.formLogin().loginPage("/login").defaultSuccessUrl("/", true).permitAll()
+        http.formLogin().loginPage("/login").defaultSuccessUrl("/account", true).permitAll()
             .and().logout().permitAll();
         
     }
@@ -42,6 +47,5 @@ public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapt
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-    
-    
+   
 }

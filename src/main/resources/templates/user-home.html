@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layout :: head(title = 'Profile')">
+        <title th:text="${firstname + ' ' + lastname}">User Profile</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <div th:replace="fragments/layout :: navbar"></div>
+        
+        <div id="main-user-details">
+            <h1>Welcome <span th:text="${firstname +  ' ' + lastname}">first and last name</span></h1>
+        </div>
+        <div id="following-list">
+            <h1>My following list</h1>
+            <table th:if="${followingList != null}">
+                <tr th:each="followee : ${followingList}">
+                    <td th:text="${followee.followeeEntity.firstName} + ' ' + ${followee.followeeEntity.lastName}">First and Last name</td>
+                    <td th:text="${#temporals.format(followee.startedToFollow, 'dd-MM-yyyy')}">Date of starting to follow</td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

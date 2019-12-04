@@ -1,9 +1,17 @@
 package projekti.account;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import projekti.Notification;
+import projekti.followers.FollowingDetail;
 
 /**
  *
@@ -34,6 +42,10 @@ public class AccountService {
             return new Notification(false, "Profile name " + profileName + " is already in use");
         }
         
+        if(firstName == null || firstName.isEmpty() || lastName == null || lastName.isEmpty()){
+            return new Notification(false, "Missing first name or last name");
+        }
+        
         if(password == null || password.isEmpty()){
             return new Notification(false, "Password field can't be empty");
         }
@@ -43,7 +55,8 @@ public class AccountService {
                 passwordEncoder.encode(password), 
                 firstName, 
                 lastName, 
-                profileName);
+                profileName,
+                new ArrayList<>());
         accountRepository.save(account);
         
         if(accountRepository.findById(account.getId()) == null){
@@ -52,4 +65,35 @@ public class AccountService {
         
         return new Notification(true, "User created successfully");
     }
+    
+    public Account findAccountByUsername(String username){
+        return accountRepository.findByUsername(username);
+    }
+    
+    public Account findAccountByProfileName(String profileName){
+        return accountRepository.findByProfileName(profileName);
+    }
+    
+    public List<Account> searchAccounts(String firstName, String lastName){
+        return accountRepository.findByFirstNameIgnoreCaseContainingAndLastNameIgnoreCaseContaining(firstName, lastName);
+    }
+    
+    public List<Account> listAccounts(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        List<Account> accounts = accountRepository.findAll().stream()
+                .filter(account -> !account.getUsername().equalsIgnoreCase(auth.getName()))
+                .collect(Collectors.toList());
+        return accounts;
+    }
+    
+    public List<FollowingDetail> fetchFollowingList(String profilename){
+        Account account = accountRepository.findByProfileName(profilename);
+        account.getFollowingPeople()
+                .forEach(followeeDetail -> {
+                    Account followeeEntity = accountRepository.getOne(followeeDetail.getFolloweeId());
+                    followeeDetail.setFolloweeEntity(followeeEntity); 
+                });
+        return account.getFollowingPeople();
+    }
+   
 }

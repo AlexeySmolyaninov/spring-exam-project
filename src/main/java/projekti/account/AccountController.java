@@ -1,11 +1,16 @@
 package projekti.account;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import projekti.Notification;
+import projekti.followers.FollowingDetail;
 
 /**
  *
@@ -34,6 +39,21 @@ public class AccountController {
                 profilename);
         model.addAttribute("notification", notification);
         return "registration";
+    }
+    
+    @GetMapping("/account")
+    public String redirectToProfile(Authentication auth){
+        return "redirect:/account/" + accountService.findAccountByUsername(auth.getName()).getProfileName();
+    }
+    
+    @GetMapping("/account/{profilename}")
+    public String userProfile(@PathVariable String profilename, Model model){
+        Account account = accountService.findAccountByProfileName(profilename);
+        List<FollowingDetail> followingList = accountService.fetchFollowingList(profilename);
+        model.addAttribute("firstname", account.getFirstName());
+        model.addAttribute("lastname", account.getLastName());
+        model.addAttribute("followingList", followingList);
+        return "user-home";
     }
     
 }

@@ -1,4 +1,4 @@
-package projekti;
+package projekti.controllerwithnoentity;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +9,6 @@ public class DefaultController {
 
     @GetMapping("*")
     public String helloWorld(Model model) {
-        model.addAttribute("message", "World!");
-        return "index";
+        return "redirect:/login";
     }
 }
