@@ -47,9 +47,13 @@ public class AccountControllerTest {
         uri.append("&profilename=");
         uri.append("aksu");
         mockMvc.perform(post(uri.toString()));
-        System.out.println(uri.toString());
         Account aksu = accountRepository.findByProfileName("aksu");
         assertTrue(aksu.getUsername().equals("alex"));
+    }
+    
+    @After
+    public void deleteAllUsers(){
+        accountRepository.deleteAll();
     }
     
 }
