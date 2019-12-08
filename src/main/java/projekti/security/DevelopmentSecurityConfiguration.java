@@ -30,9 +30,9 @@ public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapt
         http.authorizeRequests()
             .antMatchers("/h2-console", "/h2-console/**").permitAll()
             .antMatchers(HttpMethod.GET, "/registration").permitAll()
-            .antMatchers(HttpMethod.POST, "/account").permitAll()
+            .antMatchers(HttpMethod.POST, "/accounts").permitAll()
             .anyRequest().authenticated();
-        http.formLogin().loginPage("/login").defaultSuccessUrl("/account", true).permitAll()
+        http.formLogin().loginPage("/login").defaultSuccessUrl("/accounts", true).permitAll()
             .and().logout().permitAll();
         
     }

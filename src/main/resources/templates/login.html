@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head lang = "en">
+    <head th:replace="fragments/layout :: head(title = 'Login')">>
         <title>Twitter Login</title>
         <meta charset="UTF-8"/>
     </head>
     <body>
         <h1>Please Login</h1>
-        
+        <div th:replace="fragments/layout :: login-navbar"></div>
         <div th:if="${param.error}" class="alert alert-error">    
                 Invalid username and password.
         </div>
@@ -29,8 +29,6 @@
                     <td><input type="submit" value="Log In"/></td>
                 </tr>
             </table>
-            
-            <a th:href="@{/registration}">Sign Up</a>
         </form>
     </body>
 </html>

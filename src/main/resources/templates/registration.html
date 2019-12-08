@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head lang = "en">
+    <head th:replace="fragments/layout :: head(title = 'Registration')">
         <title>Twitter Registration</title>
         <meta charset="UTF-8"/>
     </head>
     <body>
+        <div th:replace="fragments/layout :: login-navbar"></div>
         <div th:replace="${notification} ? ~{fragments/layout :: note(notification=${notification})} : _"></div>
         <h1>Registration form</h1>
-        <form method="POST" th:action="@{/account}">
+        <form method="POST" th:action="@{/accounts}">
             <table>
                 <tr>
                     <td><label for="username">Username: </label></td>
@@ -35,7 +36,5 @@
                 </tr>
             </table>
         </form>
-        
-        <a th:href="@{/login}">Log In</a>
     </body>
 </html>

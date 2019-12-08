@@ -1,11 +1,13 @@
 package projekti.account;
 
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +25,7 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
     
-    @PostMapping("/account")
+    @PostMapping("/accounts")
     public String createAccount(
             @RequestParam String username,
             @RequestParam String password,
@@ -41,12 +43,12 @@ public class AccountController {
         return "registration";
     }
     
-    @GetMapping("/account")
+    @GetMapping("/accounts")
     public String redirectToProfile(Authentication auth){
-        return "redirect:/account/" + accountService.findAccountByUsername(auth.getName()).getProfileName();
+        return "redirect:/accounts/" + accountService.findAccountByUsername(auth.getName()).getProfileName();
     }
     
-    @GetMapping("/account/{profilename}")
+    @GetMapping("/accounts/{profilename}")
     public String userProfile(@PathVariable String profilename, Model model){
         Account account = accountService.findAccountByProfileName(profilename);
         List<FollowingDetail> followingList = accountService.fetchFollowingList(profilename);

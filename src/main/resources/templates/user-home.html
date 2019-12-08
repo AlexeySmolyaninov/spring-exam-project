@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head th:replace="fragments/layout :: head(title = 'Profile')">
-        <title th:text="${firstname + ' ' + lastname}">User Profile</title>
+        <title>User Profile</title>
         <meta charset="UTF-8"/>
     </head>
     <body>
         <div th:replace="fragments/layout :: navbar"></div>
+        <div th:replace="${notification} ? ~{fragments/layout :: note(notification=${notification})} : _"></div>
         
         <div id="main-user-details">
             <h1>Welcome <span th:text="${firstname +  ' ' + lastname}">first and last name</span></h1>
@@ -13,9 +14,16 @@
         <div id="following-list">
             <h1>My following list</h1>
             <table th:if="${followingList != null}">
-                <tr th:each="followee : ${followingList}">
-                    <td th:text="${followee.followeeEntity.firstName} + ' ' + ${followee.followeeEntity.lastName}">First and Last name</td>
-                    <td th:text="${#temporals.format(followee.startedToFollow, 'dd-MM-yyyy')}">Date of starting to follow</td>
+                <tr th:each="followingDetail : ${followingList}">
+                    <td th:text="${followingDetail.followee.firstName} + ' ' + ${followingDetail.followee.lastName}">First and Last name</td>
+                    <td th:text="${#temporals.format(followingDetail.startedToFollow, 'dd-MM-yyyy')}">Date of starting to follow</td>
+                    <td>
+                        <form method="POST" th:action="@{/unfollow?_method=DELETE}">
+                            <input type="hidden" name="id" th:value="${followingDetail.followee.id}"/>
+                            <input type="submit" value="Unfollow"/>
+                        </form>
+                    </td>
+                    
                 </tr>
             </table>
         </div>

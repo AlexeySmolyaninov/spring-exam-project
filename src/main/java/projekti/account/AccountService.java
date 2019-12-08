@@ -88,11 +88,11 @@ public class AccountService {
     
     public List<FollowingDetail> fetchFollowingList(String profilename){
         Account account = accountRepository.findByProfileName(profilename);
-        account.getFollowingPeople()
+        /*account.getFollowingPeople()
                 .forEach(followeeDetail -> {
                     Account followeeEntity = accountRepository.getOne(followeeDetail.getFolloweeId());
                     followeeDetail.setFolloweeEntity(followeeEntity); 
-                });
+                });*/
         return account.getFollowingPeople();
     }
    

@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,19 +23,23 @@ import projekti.followers.FollowingDetail;
 @Data @AllArgsConstructor @NoArgsConstructor
 public class Account extends AbstractPersistable<Long>{
     
-    @Column(nullable = false, unique = true)
+    @NotEmpty
+    @Column(unique = true)
     private String username;
-    
-    @Column(nullable = false)
+
+    @NotEmpty
     private String password;
-    
+
+    @NotEmpty
     private String firstName;
+    
+    @NotEmpty
     private String lastName;
     
-    @Column(nullable = false, unique = true)
+    @NotEmpty
+    @Column(unique = true)
     private String profileName;
     
     @OneToMany(mappedBy = "follower")
-    @Basic(fetch = FetchType.LAZY)
     private List<FollowingDetail> followingPeople;
 }

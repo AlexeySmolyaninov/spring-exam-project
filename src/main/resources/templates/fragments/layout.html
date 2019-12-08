@@ -16,9 +16,16 @@
             </div>
         </div>
         
+        <div th:fragment="login-navbar">
+            <ul>
+                <li><a th:href="@{/login}">Log In</a></li>
+                <li><a th:href="@{/registration}">Sign Up</a></li>
+            </ul>
+        </div>
+        
         <div th:fragment="navbar">
             <ul>
-                <li><a th:href="@{/account}">Home</a></li>
+                <li><a th:href="@{/accounts}">Home</a></li>
                 <li><a th:href="@{/search}">Find people</a></li>
                 <li><a th:href="@{/logout}">Logout</a></li>
             </ul>

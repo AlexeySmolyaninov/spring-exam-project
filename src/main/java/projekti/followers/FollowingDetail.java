@@ -21,9 +21,8 @@ import projekti.account.Account;
 @NoArgsConstructor
 public class FollowingDetail extends AbstractPersistable<Long>{
     
-    private Long followeeId;
-    @Transient
-    private Account followeeEntity;
+    @ManyToOne
+    private Account followee;
     
     @ManyToOne
     private Account follower;
