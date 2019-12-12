@@ -56,6 +56,7 @@ public class AccountService {
                 firstName, 
                 lastName, 
                 profileName,
+                new ArrayList<>(),
                 new ArrayList<>());
         accountRepository.save(account);
         
@@ -75,7 +76,11 @@ public class AccountService {
     }
     
     public List<Account> searchAccounts(String firstName, String lastName){
-        return accountRepository.findByFirstNameIgnoreCaseContainingAndLastNameIgnoreCaseContaining(firstName, lastName);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        List<Account> accounts = accountRepository.findByFirstNameIgnoreCaseContainingAndLastNameIgnoreCaseContaining(firstName, lastName).stream()
+                .filter(account -> !account.getUsername().equalsIgnoreCase(auth.getName()))
+                .collect(Collectors.toList());
+        return accounts;
     }
     
     public List<Account> listAccounts(){
@@ -88,11 +93,6 @@ public class AccountService {
     
     public List<FollowingDetail> fetchFollowingList(String profilename){
         Account account = accountRepository.findByProfileName(profilename);
-        /*account.getFollowingPeople()
-                .forEach(followeeDetail -> {
-                    Account followeeEntity = accountRepository.getOne(followeeDetail.getFolloweeId());
-                    followeeDetail.setFolloweeEntity(followeeEntity); 
-                });*/
         return account.getFollowingPeople();
     }
    

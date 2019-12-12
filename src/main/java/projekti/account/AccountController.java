@@ -1,16 +1,18 @@
 package projekti.account;
 
+import java.util.ArrayList;
 import java.util.List;
-import javax.validation.Valid;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import projekti.Notification;
 import projekti.followers.FollowingDetail;
 
@@ -51,11 +53,28 @@ public class AccountController {
     @GetMapping("/accounts/{profilename}")
     public String userProfile(@PathVariable String profilename, Model model){
         Account account = accountService.findAccountByProfileName(profilename);
-        List<FollowingDetail> followingList = accountService.fetchFollowingList(profilename);
+        //List<FollowingDetail> followingList = accountService.fetchFollowingList(profilename);
+        List<FollowingDetail> followingPeople = account.getFollowingPeople() != null ? account.getFollowingPeople(): new ArrayList<>();
         model.addAttribute("firstname", account.getFirstName());
         model.addAttribute("lastname", account.getLastName());
-        model.addAttribute("followingList", followingList);
+        model.addAttribute("followingPeople", followingPeople);
         return "user-home";
+    }
+    
+    @GetMapping("/myDetails")
+    @ResponseBody
+    public Account getMyDetails(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return accountService.findAccountByUsername(auth.getName());
+    }
+    
+    @GetMapping("/accounts/{profilename}/followings")
+    @ResponseBody
+    public List<Account> getFollwing(@PathVariable String profilename){
+        Account account = accountService.findAccountByProfileName(profilename);
+        return account.getFollowingPeople().stream()
+                .map(following -> following.getFollowee())
+                .collect(Collectors.toList());
     }
     
 }

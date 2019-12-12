@@ -35,7 +35,7 @@ public class AccountControllerTest {
     
     @Test
     public void registerAccount() throws Exception{
-        StringBuilder uri = new StringBuilder("/account?");
+        StringBuilder uri = new StringBuilder("/accounts?");
         uri.append("username=");
         uri.append("alex");
         uri.append("&password=");

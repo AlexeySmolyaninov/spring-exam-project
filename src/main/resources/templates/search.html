@@ -5,38 +5,61 @@
         <meta charset="UTF-8"/>
     </head>
     <body>
-        <div th:replace="fragments/layout :: navbar"></div>
-        <div th:replace="${notification} ? ~{fragments/layout :: note(notification=${notification})} : _"></div>
-        <h1>Search by </h1>
-        <form method="GET" th:action="@{/search}">
-            <table>
-                <tr>
-                    <td><label for="firstname">First name: </label></td>
-                    <td><input id="firstname" type="text" name="firstname"/></td>
-                </tr>
-                <tr>
-                    <td><label for="lastname">Last name: </label></td>
-                    <td><input id="lastname" type="text" name="lastname"/></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="submit" value="Search"/></td>
-                </tr>
-            </table>
-        </form>
-        
-        <div id="search-result" th:if="${searchResult != null}">
-            <ul>
-                <li th:each="account : ${searchResult}">
-                    <div>
-                        <p th:text="${account.firstName} + ' ' + ${account.lastName}">first name and last name</p>
-                        <form method="POST" th:action="@{/follow}">
-                            <input type="hidden" name="id" th:value="${account.id}"/>
-                            <input type="submit" value="Follow"/>
-                        </form>
+        <div class="container">
+            <div th:replace="fragments/layout :: navbar"></div>
+            <div th:replace="${notification} ? ~{fragments/layout :: note(notification=${notification})} : _"></div>
+            
+            <h1>Search by </h1>
+            <form id="search-form">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <input id="first-name" class="form-control mr-2 mb-2" type="text" name="firstname" placeholder="First name"/>
                     </div>
-                </li>
-            </ul>
+                    <div class="col-sm-5">
+                        <input id="last-name" class="form-control mr-2 mb-2" type="text" name="lastname" placeholder="Last name"/>
+                    </div>
+                    <div class="col-sm-2">
+                        <input class="btn btn-primary" type="button" value="Search" onclick="search()"/>
+                    </div>
+                </div>
+            </form>
+            
+            <div id="search-result"></div>
+            
+            <!--<form method="GET" th:action="@{/search}">
+                <table>
+                    <tr>
+                        <td><label for="firstname">First name: </label></td>
+                        <td><input id="firstname" type="text" name="firstname"/></td>
+                    </tr>
+                    <tr>
+                        <td><label for="lastname">Last name: </label></td>
+                        <td><input id="lastname" type="text" name="lastname"/></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" value="Search"/></td>
+                    </tr>
+                </table>
+            </form>-->
+            
+           
+
+            <!--<div id="search-result" th:if="${searchResult != null}">
+                <ul>
+                    <li th:each="account : ${searchResult}">
+                        <div>
+                            <p th:text="${account.firstName} + ' ' + ${account.lastName}">first name and last name</p>
+                            <form method="POST" th:action="@{/follow}">
+                                <input type="hidden" name="id" th:value="${account.id}"/>
+                                <input type="submit" value="Follow"/>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div> -->
         </div>
+        <script th:replace="fragments/layout :: context-root"></script>
+        <script th:replace="fragments/layout :: search-script"></script>
     </body>
 </html>

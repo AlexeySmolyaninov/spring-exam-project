@@ -5,30 +5,34 @@
         <meta charset="UTF-8"/>
     </head>
     <body>
-        <h1>Please Login</h1>
-        <div th:replace="fragments/layout :: login-navbar"></div>
-        <div th:if="${param.error}" class="alert alert-error">    
-                Invalid username and password.
-        </div>
-        <div th:if="${param.logout}" class="alert alert-success"> 
-                You have been logged out.
-        </div>
         
-        <form name="f" th:action="@{/login}" method="post">
-            <table>
-                <tr>
-                    <td><label for="username">Username</label></td>
-                    <td><input type="text" id="username" name="username"/></td>
-                </tr>
-                <tr>
-                    <td><label for="password">Password</label></td>
-                    <td><input type="password" id="password" name="password"/></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="submit" value="Log In"/></td>
-                </tr>
-            </table>
-        </form>
+        <div class="container">
+
+            <!--navigation bar-->
+            <div th:replace="fragments/layout :: login-navbar"></div>
+        
+            <div th:if="${param.error}" class="alert alert-danger">    
+                    Invalid username and password.
+            </div>
+            <div th:if="${param.logout}" class="alert alert-success"> 
+                    You have been logged out.
+            </div>
+
+            <h1>Welcome to Oldy Twitter</h1>
+            <h3>Please Login</h3>
+            <!--Log In form-->
+            <form name="f" th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input class="form-control" type="text" id="username" name="username"/>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input class="form-control" type="password" id="password" name="password"/>
+                </div>
+                <input class="btn btn-primary" type="submit" value="Log In"/>
+                    
+            </form>
+        </div>
     </body>
 </html>

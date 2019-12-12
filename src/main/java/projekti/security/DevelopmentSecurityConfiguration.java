@@ -31,6 +31,7 @@ public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapt
             .antMatchers("/h2-console", "/h2-console/**").permitAll()
             .antMatchers(HttpMethod.GET, "/registration").permitAll()
             .antMatchers(HttpMethod.POST, "/accounts").permitAll()
+            .antMatchers(HttpMethod.GET, "/css/**").permitAll()
             .anyRequest().authenticated();
         http.formLogin().loginPage("/login").defaultSuccessUrl("/accounts", true).permitAll()
             .and().logout().permitAll();

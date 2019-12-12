@@ -1,12 +1,11 @@
 package projekti.controllerwithnoentity;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import projekti.Notification;
 import projekti.account.Account;
 import projekti.account.AccountService;
@@ -27,15 +26,14 @@ public class FollowController {
     private FollowService followService;
     
     @PostMapping("/follow")
-    public String startFollowingAccount(@RequestParam Long id, Model model){
-        Notification notification = followService.startFollowingAccount(id);
-        model.addAttribute("notification", notification);
-        return "search";
+    @ResponseBody
+    public Notification startFollowingAccount(@RequestBody Account account){
+        return followService.startFollowingAccount(account.getId());
     }
     
     @DeleteMapping("/unfollow")
-    public String unfollowAccount(@RequestParam Long id, Model model){
-        Notification notification = followService.unfollowAccount(id);
-        return "redirect:/accounts";
+    @ResponseBody
+    public Notification unfollowAccount(@RequestBody Account account){
+        return followService.unfollowAccount(account.getId());
     }
 }
