@@ -22,3 +22,20 @@ form {
 .card-body .btn-primary {
     margin-right: 10px;
 }
+
+.jumbotron {
+    background-color: #fff;
+}
+
+#followingAmount {
+    float: right;
+    margin-right: 1rem;
+    margin-top: 0.2rem;
+}
+
+.alert{
+    position: fixed;
+    width: 20%;
+    left: 65%;
+    top: 10%;
+}

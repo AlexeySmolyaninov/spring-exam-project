@@ -1,6 +1,8 @@
 package projekti.media;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,9 +21,10 @@ import projekti.account.Account;
 @AllArgsConstructor
 public class Picture extends AbstractPersistable<Long>{
     
+    @Lob
     private byte[] content;
     
-    private boolean isProfilePicture = false;
+    private String description;
     
     @ManyToOne
     private Account owner;

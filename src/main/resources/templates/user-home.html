@@ -11,11 +11,11 @@
 
             <div class="row">
                 <div class="col-sm-4">
-                    <div class="profile-pic" style="height: 200px; background: #aaa;"></div>
+                    <div th:replace="${profilePicId} ? ~{fragments/layout :: profile-pic(profileName = ${profilename}, picId = ${profilePicId})} : _" class="profile-pic" style="height: 200px; background: #aaa;"></div>
                     <h5 th:text="${firstname + ' ' + lastname}">First and last name</h5>
                     <div class="list-group">
-                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#myModal">Following <span id="followingAmount" class="badge badge-primary badge-pill" th:text="${#arrays.length(followingPeople)}">0</span></button>
-                        <a href="#" class="list-group-item list-group-item-action">Photo Gallery</a>
+                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#myModal"><i class="fa fa-users"></i> Following <span id="followingAmount" class="badge badge-primary badge-pill" th:text="${#arrays.length(followingPeople)}">0</span></button>
+                        <a th:href="'/accounts/' + ${profilename} + '/pictures'" class="list-group-item list-group-item-action"><i class="fa fa-camera"></i> Photo Gallery</a>
                     </div>
                 </div>
                 <div class="col-sm-8">

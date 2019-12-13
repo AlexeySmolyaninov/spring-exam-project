@@ -50,14 +50,13 @@ public class AccountService {
             return new Notification(false, "Password field can't be empty");
         }
         
-        Account account = new Account(
-                username, 
-                passwordEncoder.encode(password), 
-                firstName, 
-                lastName, 
-                profileName,
-                new ArrayList<>(),
-                new ArrayList<>());
+        Account account = new Account();
+        account.setUsername(username);
+        account.setPassword(passwordEncoder.encode(password));
+        account.setFirstName(firstName);
+        account.setLastName(lastName);;
+        account.setProfileName(profileName);
+
         accountRepository.save(account);
         
         if(accountRepository.findById(account.getId()) == null){

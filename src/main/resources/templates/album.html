@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layout :: head(title = 'Album')">
+        <title>Album</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <div class="container">
+            <div th:replace="fragments/layout :: navbar"></div>
+            <div class="jumbotron text-center">
+                <div class="container">
+                    <h1><i class="fa fa-camera-retro"></i> Album</h1>
+                    <p><button class="btn btn-primary my-2" data-toggle="modal" data-target="#upload-pic">Upload Picture</button></p>
+                </div>
+            </div>
+
+            <!--List of Pictures-->
+            <div class="row">
+                <div class="col-md-4" th:if="${pictures != null}" th:each="pic : ${pictures}" th:id="'pic-' + ${pic.id}">
+                    <div class="card mb-4 shadow-sm" style="width:100%">
+                        <img class="card-img-top" th:src="@{/accounts/{profilename}/pictures/{id}/content(profilename=${account.profileName}, id=${pic.id})}" style="width: 100%; height: 200px; background-color: #55595c" alt="Card image" />
+                        <div class="card-body">
+                            <p class="card-text" th:text="${pic.description}">Description</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-secondary" th:onclick="'setProfilePic('+ ${pic.id} + ')'">Profile picture</button>
+                                    <button type="button" class="btn btn-sm btn-danger" th:onclick="'deletePic(' + ${pic.id} + ')'"><i class="fa fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Model for uploading a picture-->
+        <div class="modal fade" id="upload-pic">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Upload Picture</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <form method="POST" th:action="@{/uploadpicture}" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <input type="file" class="form-control-file" name="file" id="file">
+                            </div>
+                            <div class="form-group">
+                                <label for="upload-desc">Description</label>
+                                <textarea class="form-control" id="upload-desc" name="desc" rows="2"></textarea>
+                            </div>
+                            <input class="btn btn-primary" type="submit" value="Upload Picture"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!--Model for deleting a picture--> 
+        <!--<div class="modal fade" id="delete-pic">   TODO: maybe in future can be implemented for safety risk
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    
+                    <div class="modal-body">
+                        <h1>Are you sure you want to delete this picture?</h1>
+                        <button class="btn btn-danger my-2"><i class="fa fa-trash"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+        <script th:replace="fragments/layout :: context-root"></script>
+        <script th:replace="fragments/layout :: album-script"></script>
+    </body>
+</html>

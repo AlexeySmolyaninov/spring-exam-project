@@ -10,12 +10,14 @@
 
             <!--navigation bar-->
             <div th:replace="fragments/layout :: login-navbar"></div>
-        
-            <div th:if="${param.error}" class="alert alert-danger">    
-                    Invalid username and password.
+            
+            <div th:if="${param.error}" class="alert alert-danger alert-dismissible">    
+                <p>Invalid username and password.</p>
+                <button type="button" class="close" data-dismiss="alert">X</button>
             </div>
-            <div th:if="${param.logout}" class="alert alert-success"> 
-                    You have been logged out.
+            <div th:if="${param.logout}" class="alert alert-success alert-dismissible"> 
+                <p>You have been logged out.</p>
+                <button type="button" class="close" data-dismiss="alert">X</button>
             </div>
 
             <h1>Welcome to Oldy Twitter</h1>

@@ -53,11 +53,13 @@ public class AccountController {
     @GetMapping("/accounts/{profilename}")
     public String userProfile(@PathVariable String profilename, Model model){
         Account account = accountService.findAccountByProfileName(profilename);
-        //List<FollowingDetail> followingList = accountService.fetchFollowingList(profilename);
+        Long picId = account.getProfilePicture() != null ? account.getProfilePicture().getId() : null;
         List<FollowingDetail> followingPeople = account.getFollowingPeople() != null ? account.getFollowingPeople(): new ArrayList<>();
         model.addAttribute("firstname", account.getFirstName());
         model.addAttribute("lastname", account.getLastName());
+        model.addAttribute("profilename", account.getProfileName());
         model.addAttribute("followingPeople", followingPeople);
+        model.addAttribute("profilePicId", picId);
         return "user-home";
     }
     
@@ -65,7 +67,8 @@ public class AccountController {
     @ResponseBody
     public Account getMyDetails(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return accountService.findAccountByUsername(auth.getName());
+        Account myDetails = accountService.findAccountByUsername(auth.getName());
+        return myDetails;
     }
     
     @GetMapping("/accounts/{profilename}/followings")

@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,6 +40,11 @@ public class Account extends AbstractPersistable<Long>{
     @OneToMany(mappedBy = "follower")
     private List<FollowingDetail> followingPeople;
     
+    @JsonIgnore
     @OneToMany(mappedBy = "owner")
     private List<Picture> pictures;
+    
+    @JsonIgnore
+    @OneToOne
+    private Picture profilePicture;
 }
