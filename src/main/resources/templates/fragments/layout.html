@@ -16,11 +16,11 @@
         <div th:fragment="note(notification)" id="notification">
             <div class="alert alert-success alert-dismissible" th:if="${notification.goodMsg == true}">
                 <p th:text="${notification.msg}">Successful message</p>
-                <button type="button" class="close" data-dismiss="">X</button>
+                <button type="button" class="close" data-dismiss="alert">X</button>
             </div>
             <div class="alert alert-danger alert-dismissible" th:if="${notification.goodMsg == false}">
                 <p th:text="${notification.msg}">Some error message</p>
-                <button type="button" class="close" data-dismiss="">X</button>
+                <button type="button" class="close" data-dismiss="alert">X</button>
             </div>
         </div>
 
