@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import projekti.account.Account;
 
@@ -22,6 +23,7 @@ import projekti.account.Account;
 public class Picture extends AbstractPersistable<Long>{
     
     @Lob
+    @Type(type = "org.hibernate.type.BinaryType")
     private byte[] content;
     
     private String description;
