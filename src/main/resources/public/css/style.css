@@ -35,7 +35,20 @@ form {
 
 .alert{
     position: fixed;
-    width: 20%;
+    width: 300px;
     left: 65%;
     top: 10%;
+}
+
+#new-post-btn {
+    display: block;
+    margin: 1rem auto;
+}
+
+#post-date {
+    float: right;
+}
+
+.post {
+    margin-bottom: 2rem;
 }

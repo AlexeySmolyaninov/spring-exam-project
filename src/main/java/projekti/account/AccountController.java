@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import projekti.Notification;
 import projekti.followers.FollowingDetail;
+import projekti.post.Post;
+import projekti.post.PostService;
 
 /**
  *
@@ -26,6 +28,9 @@ public class AccountController {
     
     @Autowired
     private AccountService accountService;
+    
+    @Autowired
+    private PostService postService;
     
     @PostMapping("/accounts")
     public String createAccount(
@@ -56,11 +61,13 @@ public class AccountController {
         String logedUserProfileName = accountService.findAccountByUsername(auth.getName()).getProfileName();
         Long picId = account.getProfilePicture() != null ? account.getProfilePicture().getId() : null;
         List<FollowingDetail> followingPeople = account.getFollowingPeople() != null ? account.getFollowingPeople(): new ArrayList<>();
+        List<Post> posts = postService.getOwnAndFolloweePosts(profilename);
         model.addAttribute("firstname", account.getFirstName());
         model.addAttribute("lastname", account.getLastName());
         model.addAttribute("profilename", account.getProfileName());
         model.addAttribute("logedUserProfileName", logedUserProfileName);
         model.addAttribute("followingPeople", followingPeople);
+        model.addAttribute("posts", posts);
         model.addAttribute("profilePicId", picId);
         return "user-home";
     }

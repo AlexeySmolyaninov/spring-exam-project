@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import projekti.followers.FollowingDetail;
 import projekti.media.Picture;
+import projekti.post.Post;
 
 /**
  *
@@ -47,4 +48,8 @@ public class Account extends AbstractPersistable<Long>{
     @JsonIgnore
     @OneToOne
     private Picture profilePicture;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "owner")
+    private List<Post> myPosts; 
 }

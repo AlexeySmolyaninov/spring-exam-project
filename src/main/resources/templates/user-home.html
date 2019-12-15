@@ -8,22 +8,46 @@
         <div class="container">
             <div th:replace="fragments/layout :: navbar"></div>
             <div th:replace="${notification} ? ~{fragments/layout :: note(notification=${notification})} : _"></div>
-
             <div class="row">
                 <div class="col-sm-4">
                     <div th:replace="${profilePicId} ? ~{fragments/layout :: profile-pic(profileName = ${profilename}, picId = ${profilePicId})} : _" class="profile-pic" style="height: 200px; background: #aaa;"></div>
                     <h5 th:text="${firstname + ' ' + lastname}">First and last name</h5>
                     <div class="list-group">
-                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#myModal"><i class="fa fa-users"></i> Following <span id="followingAmount" class="badge badge-primary badge-pill" th:text="${#arrays.length(followingPeople)}">0</span></button>
+                        <button class="list-group-item list-group-item-action" data-toggle="modal" data-target="#followee-modal"><i class="fa fa-users"></i> Following <span id="followingAmount" class="badge badge-primary badge-pill" th:text="${#arrays.length(followingPeople)}">0</span></button>
                         <a th:href="'/accounts/' + ${profilename} + '/pictures'" class="list-group-item list-group-item-action"><i class="fa fa-camera"></i> Photo Gallery</a>
                     </div>
                 </div>
                 <div class="col-sm-8">
+                    <button id="new-post-btn" class="btn btn-primary btn-lg" th:if="${logedUserProfileName == profilename}" data-toggle="modal" data-target="#post-modal">Create New Post</button> 
                     <h1 style="text-align: center">Posts</h1>
-                    <div class="media border p-3">
-                        <img src="img_avatar3.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;" />
+                    <div id="posts-container">
+                        <div class="post media border p-3" th:each="post : ${posts}">
+                            <!--<img src="img_avatar3.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;" /> -->
+                            <div class="media-body">
+                                <h4>
+                                    <a th:href="${'/accounts/' + post.owner.profileName}"><span th:text="${post.owner.firstName} + ' ' + ${post.owner.lastName}">First and Last name</span></a>
+                                    <small id="post-date"><i><span th:text="${#temporals.format(post.created, 'dd-MM-yyyy HH:mm')}">Date</span></i></small>
+                                </h4>
+                                <p th:text="${post.text}">Some Text</p>
+                                <!--<div class="media p-3">
+                                    <img src="img_avatar2.png" alt="Jane Doe" class="mr-3 mt-3 rounded-circle" style="width:45px;" />
+                                    <div class="media-body">
+                                        <h4>Jane Doe <small><i>Posted on February 20 2016</i></small></h4>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                    </div>-->
+                                </div>  
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!--<div class="media border p-3" th:each="post : ${posts}">
+                        <!--<img src="img_avatar3.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;" />
                         <div class="media-body">
-                            <h4>John Doe <small><i>Posted on February 19, 2016</i></small></h4>
+                            <h4>
+                                <a th:href="${'/accounts/' + post.owner.profileName}"><span th:text="${post.owner.firstName} + ' ' + ${post.owner.lastName}">First and Last name</span></a>
+                                <small id="post-date"><i><span th:text="${#temporals.format(post.created, 'dd-MM-yyyy HH:mm')}">Date</span></i></small>
+                            </h4>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                             <div class="media p-3">
@@ -35,12 +59,12 @@
                                 </div>
                             </div>  
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
 
-            <!-- The Modal -->
-            <div class="modal fade" id="myModal">
+            <!-- My followee Modal -->
+            <div class="modal fade" id="followee-modal">
                 <div class="modal-dialog">
                     <div class="modal-content">
 
@@ -73,25 +97,31 @@
                 </div>
             </div>
 
-            <!--<div id="main-user-details">
-                <h1>Welcome <span th:text="${firstname +  ' ' + lastname}">first and last name</span></h1>
-            </div>
-            <div id="following-list">
-                <h1>My following list</h1>
-                <table th:if="${followingList != null}">
-                    <tr th:each="followingDetail : ${followingList}">
-                        <td th:text="${followingDetail.followee.firstName} + ' ' + ${followingDetail.followee.lastName}">First and Last name</td>
-                        <td th:text="${#temporals.format(followingDetail.startedToFollow, 'dd-MM-yyyy')}">Date of starting to follow</td>
-                        <td>
-                            <form method="POST" th:action="@{/unfollow?_method=DELETE}">
-                                <input type="hidden" name="id" th:value="${followingDetail.followee.id}"/>
-                                <input type="submit" value="Unfollow"/>
+            <!-- New Post Modal -->
+            <div class="modal fade" id="post-modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Your new post</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <textarea class="form-control" id="post-text" rows="3" required="true"></textarea>
+                                </div>
+                                <button class="btn btn-primary" type="button" th:data1="${profilename}" th:onclick="javascript:newPost(this.getAttribute('data1'))" data-dismiss="modal">Share</button>
                             </form>
-                        </td>
-                        
-                    </tr>
-                </table>
-            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
         <script th:replace="fragments/layout :: context-root"></script>
         <script th:replace="fragments/layout :: user-home-script"></script>
