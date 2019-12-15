@@ -21,7 +21,7 @@
                     <button id="new-post-btn" class="btn btn-primary btn-lg" th:if="${logedUserProfileName == profilename}" data-toggle="modal" data-target="#post-modal">Create New Post</button> 
                     <h1 style="text-align: center">Posts</h1>
                     <div id="posts-container">
-                        <div class="post media border p-3" th:each="post : ${posts}">
+                        <div th:class="${'post media border p-3 post-account-' + post.owner.id}" th:each="post : ${posts}">
                             <!--<img src="img_avatar3.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;" /> -->
                             <div class="media-body">
                                 <h4>

@@ -18,6 +18,8 @@ function unfollow(id) {
             var spanFollowingAmount = document.querySelector("#followingAmount");
             var amount = spanFollowingAmount.textContent;
             spanFollowingAmount.textContent = amount == 0 ? 0 : amount - 1;
+            
+            removeFolloweePosts(id);
         }
     }
 
@@ -56,7 +58,7 @@ function addNewPostToDOM(post){
     var divPosts = document.querySelector("#posts-container");
     
     var divPost = document.createElement("div");
-    divPost.setAttribute("class", "post media border p-3");
+    divPost.setAttribute("class", "post media border p-3 post-" + post.owner.profileName);
     divPosts.insertBefore(divPost, divPosts.firstChild);
     
     var divMediaBody = document.createElement("media-body");
@@ -109,4 +111,11 @@ function formatToAppDateformat(date){
     var dateAndTimeparts = resultDate.split(":");
     resultDate = dateAndTimeparts[0] + ":" + dateAndTimeparts[1];
     return resultDate;
+}
+
+function removeFolloweePosts(id){
+    var posts = document.querySelectorAll(".post-account-"+id);
+    posts.forEach(function (postEl){
+    postEl.parentNode.removeChild(postEl);
+});
 }
