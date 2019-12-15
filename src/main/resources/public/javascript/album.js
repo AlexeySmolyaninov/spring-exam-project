@@ -60,7 +60,12 @@ function createNotification(notificationObj) {
     var body = document.querySelector("body");
     
     var divAlert = document.createElement("div");
-    divAlert.setAttribute("class", "alert alert-success alert-dismissible");
+    if(notificationObj.goodMsg){
+        divAlert.setAttribute("class", "alert alert-success alert-dismissible");
+    } else {
+        divAlert.setAttribute("class", "alert alert-danger alert-dismissible");
+    }
+    
     divAlert.setAttribute("id", "pic-alert");
     divAlert.textContent = notificationObj.msg;
     

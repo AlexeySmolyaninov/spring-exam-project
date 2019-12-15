@@ -10,7 +10,7 @@
             <div class="jumbotron text-center">
                 <div class="container">
                     <h1><i class="fa fa-camera-retro"></i> Album</h1>
-                    <p><button class="btn btn-primary my-2" data-toggle="modal" data-target="#upload-pic">Upload Picture</button></p>
+                    <p><button class="btn btn-primary my-2" th:if="${myAccount.profileName == account.profileName}" data-toggle="modal" data-target="#upload-pic">Upload Picture</button></p>
                 </div>
             </div>
 

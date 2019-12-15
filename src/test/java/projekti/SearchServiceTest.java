@@ -2,20 +2,19 @@ package projekti;
 
 import java.util.List;
 import java.util.Objects;
-import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import projekti.account.AccountService;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import projekti.account.Account;
 import projekti.account.AccountRepository;
 
@@ -39,14 +38,19 @@ public class SearchServiceTest {
     @Autowired
     private AccountRepository accountRepository;
     
-    @Test
-    public void searchAllUsers() throws Exception{
+    @Before
+    public void createUsers(){
         accountService.createAccount("alex", "alex", "Alexander", "Val", "bigal");
         accountService.createAccount("jordan", "jordan", "Michael", "Jordan", "flyman");
         accountService.createAccount("lebron", "lebron", "James", "Lebron", "dunkman");
+    }
+    
+    @Test
+    @WithMockUser(username = "alex", password = "alex")
+    public void searchAllUsers() throws Exception{
         
         List<Account> accounts = accountService.searchAccounts("", "");
-        Assert.assertTrue(accounts.size() == 3);
+        Assert.assertTrue(accounts.size() == 2);
         Assert.assertTrue(accounts
                 .stream()
                 .filter(account -> Objects.equals(account.getUsername(), "jordan"))
@@ -55,6 +59,7 @@ public class SearchServiceTest {
     }
     
     @Test
+    @WithMockUser(username = "alex", password = "alex")
     public void searchParticularUser() throws Exception{
         
         List<Account> accounts = accountService.searchAccounts("Michael", "");

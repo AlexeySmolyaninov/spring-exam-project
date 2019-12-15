@@ -57,10 +57,12 @@ public class PictureController {
     
     
     @GetMapping(path = "/accounts/{profilename}/pictures", produces = {MIME_TYPE_JPEG, MIME_TYPE_GIF, MIME_TYPE_PNG})
-    public String getPictures(@PathVariable String profilename, Model model){
+    public String getPictures(@PathVariable String profilename, Model model, Authentication auth){
         Account account = accountService.findAccountByProfileName(profilename);
+        Account logedInAccount = accountService.findAccountByUsername(auth.getName());
         List<Picture> pictures = pictureService.getPictures(account);
         model.addAttribute("account", account);
+        model.addAttribute("myAccount", logedInAccount);
         model.addAttribute("pictures", pictures);
         return "album";
     }

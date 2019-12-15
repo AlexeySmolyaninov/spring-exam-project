@@ -64,7 +64,7 @@
                                     <tr th:each="followingDetail : ${followingPeople}" th:id="${'account-' + followingDetail.followee.id}">
                                         <td><a th:href="${'/accounts/' + followingDetail.followee.profileName}" th:text="${followingDetail.followee.firstName + ' ' + followingDetail.followee.lastName}" >First and last name</a></td>
                                         <td th:text="${#temporals.format(followingDetail.startedToFollow, 'dd-MM-yyyy')}">Date</td>
-                                        <td><button class="btn btn-danger" th:onclick="'unfollow(' + ${followingDetail.followee.id} + ')'">Unfollow</button></td> 
+                                        <td><button class="btn btn-danger" th:if="${logedUserProfileName == profilename}" th:onclick="'unfollow(' + ${followingDetail.followee.id} + ')'">Unfollow</button></td> 
                                     </tr>
                                 </tbody>
                             </table>

@@ -14,7 +14,6 @@ import projekti.account.AccountRepository;
 
 //mockMvc get- and poost methods
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import projekti.account.Account;
 
 /**
