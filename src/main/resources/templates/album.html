@@ -22,7 +22,7 @@
                         <div class="card-body">
                             <p class="card-text" th:text="${pic.description}">Description</p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
+                                <div class="btn-group" th:if="${myAccount.profileName == account.profileName}">
                                     <button type="button" class="btn btn-sm btn-secondary" th:onclick="'setProfilePic('+ ${pic.id} + ')'">Profile picture</button>
                                     <button type="button" class="btn btn-sm btn-danger" th:onclick="'deletePic(' + ${pic.id} + ')'"><i class="fa fa-trash"></i></button>
                                 </div>
