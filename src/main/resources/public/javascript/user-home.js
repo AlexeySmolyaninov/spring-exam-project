@@ -58,6 +58,7 @@ function addNewPostToDOM(post){
     var divPosts = document.querySelector("#posts-container");
     
     var divPost = document.createElement("div");
+    divPost.setAttribute("id", "post-" + post.id);
     divPost.setAttribute("class", "post media border p-3 post-" + post.owner.profileName);
     divPosts.insertBefore(divPost, divPosts.firstChild);
     
@@ -92,6 +93,21 @@ function addNewPostToDOM(post){
     
     var pText = document.createElement("p");
     divMediaBody.appendChild(pText);
+    
+    var spanLike = document.createElement("span");
+    spanLike.setAttribute("class", "post-like");
+    spanLike.setAttribute("onclick", "like(" + post.id + ")");
+    divMediaBody.appendChild(spanLike);
+    
+    var heartEl = document.createElement("i");
+    heartEl.setAttribute("class", "fa fa-heart");
+    spanLike.appendChild(heartEl);
+    
+    var spanLikeAmount = document.createElement("span");
+    spanLikeAmount.setAttribute("class", "post-like-counter");
+    spanLikeAmount.textContent = 0;
+    spanLike.appendChild(spanLikeAmount);
+    
     pText.appendChild(document.createTextNode(post.text));
     
 }

@@ -31,7 +31,7 @@
                                 <p th:text="${post.text}">Some Text</p>
                                 <span class="post-like" th:postid="${post.id}" th:onclick="javascript:like(this.getAttribute('postid'))">
                                     <i class="fa fa-heart"></i>
-                                    <span id="post-like-counter" th:text="${#arrays.length(post.likes)}">0</span>
+                                    <span class="post-like-counter" th:text="${#arrays.length(post.likes)}">0</span>
                                 </span> 
                             </div>
                         </div>
