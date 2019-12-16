@@ -1,6 +1,8 @@
 package projekti.media;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,7 +32,7 @@ public class PictureService {
     public Notification uploadPicture(byte[] content, String desc, Account owner){
         List<Picture> pictures = pictureRepository.findAll();
         if(pictures.size() < 10){
-            Picture newPicture = new Picture(content, desc, owner);
+            Picture newPicture = new Picture(content, desc, owner, new ArrayList<>());
             pictureRepository.save(newPicture);
             return new Notification(true, "Picture has been successfully saved!"); 
         }
@@ -48,8 +50,8 @@ public class PictureService {
     public Picture deletePicture(Long id){
         Picture picture = pictureRepository.getOne(id);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        
-        if(picture.getOwner().getUsername().equals(auth.getName())){
+        Account owner = accountRepository.findByUsername(auth.getName());
+        if(picture.getOwner().getUsername().equals(auth.getName()) && !Objects.equals(picture.getId(), owner.getProfilePicture().getId())){
             pictureRepository.delete(picture);
             return picture;
         }

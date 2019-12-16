@@ -130,21 +130,11 @@ function like(postId){
         response = JSON.parse(this.responseText);
         
         if(response.goodMsg){
-            /*var spanLikeCounter = document.querySelector("#post-" + postId + " span.post-like span");
-            var spanLike = document.querySelector("#post-" + postId + " span.post-like");
-            spanLike.removeAttribute("class");
-            spanLike.setAttribute("class", "post-liked");*/
-            
             var spanLikeCounter = document.querySelector("#post-" + postId + " span.post-like span");
             spanLikeCounter.textContent = Number.parseInt(spanLikeCounter.textContent) + 1;
         }
         
-        if(!response.goodMsg){
-            /*var spanLikeCounter = document.querySelector("#post-" + postId + " span.post-liked span");
-            var spanLike = document.querySelector("#post-" + postId + " span.post-liked");
-            spanLike.removeAttribute("class");
-            spanLike.setAttribute("class", "post-like");*/
-            
+        if(!response.goodMsg){           
             var spanLikeCounter = document.querySelector("#post-" + postId + " span.post-like span");
             var likeCounter = Number.parseInt(spanLikeCounter.textContent);
             if(likeCounter > 0){

@@ -26,6 +26,11 @@
                                     <button type="button" class="btn btn-sm btn-secondary" th:onclick="'setProfilePic('+ ${pic.id} + ')'">Profile picture</button>
                                     <button type="button" class="btn btn-sm btn-danger" th:onclick="'deletePic(' + ${pic.id} + ')'"><i class="fa fa-trash"></i></button>
                                 </div>
+                                
+                                <span class="pic-like" th:data1="${pic.id}" th:onclick="javascript:likePic(this.getAttribute('data1'))">
+                                        <i class="fa fa-heart"></i>
+                                        <span id="post-like-counter" th:text="${#arrays.length(pic.likes)}">0</span>
+                                </span>
                             </div>
                         </div>
                     </div>

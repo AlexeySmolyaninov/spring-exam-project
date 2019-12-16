@@ -28,38 +28,17 @@ import projekti.post.PostRepository;
 public class LikePostController {
     
     @Autowired
-    private LikePostRepository likePostRepository;
-    
-    @Autowired
-    private PostRepository postRepository;
-    
-    @Autowired
-    private AccountRepository accountRepository;
+    private LikePostService likePostService;
     
     @GetMapping("/posts/{id}/likes")
     @ResponseBody
     public List<LikePost> getPostLikes(@PathVariable Long id){
-        Post post = postRepository.getOne(id);
-        return likePostRepository.findAllByPost(post);
+        return likePostService.getLikeForPost(id);
     }
     
     @PostMapping("/posts/{id}/like")
     @ResponseBody
-    public Notification likeAndUnlikeAPost(@PathVariable Long id, Authentication auth){
-        Post post = postRepository.getOne(id);
-        Account owner = accountRepository.findByUsername(auth.getName());
-        List<LikePost> likesForPost = likePostRepository.findAllByPost(post);
-        LikePost like = likesForPost.stream()
-                .filter(likeStream -> Objects.equal(likeStream.getOwner().getProfileName(), owner.getProfileName()))
-                .findFirst()
-                .orElse(null);
-        if(like == null) {
-            likePostRepository.save(new LikePost(owner, post, owner.getId()));
-            return new Notification(true, "You have liked the post!");
-        } else {
-            likePostRepository.delete(like);
-            return new Notification(false, "You have remove your like"); //value set to false to be able to destinguish what has been performed like or unlike
-        }
-        
+    public Notification likeAndUnlikeAPost(@PathVariable Long id){
+        return likePostService.likeAndUnlikeAPost(id);
     }
 }

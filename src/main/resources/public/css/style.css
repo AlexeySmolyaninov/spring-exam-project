@@ -10,6 +10,15 @@ form {
     margin-top: 2rem;
 }
 
+#login-h {
+    text-align: center;
+}
+
+#login-form {
+    margin: auto;
+    width: 50%;
+}
+
 #search-form {
     margin-bottom: 2rem;
 }
