@@ -1,16 +1,15 @@
-package projekti.post;
+package projekti.actions;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import projekti.account.Account;
-import projekti.actions.LikePost;
+import projekti.post.Post;
 
 /**
  *
@@ -19,17 +18,17 @@ import projekti.actions.LikePost;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Post extends AbstractPersistable<Long>{
-    
-    private String text;
-    
-    private LocalDateTime created;
+@NoArgsConstructor
+@Table(name = "LIKE_POST")
+public class LikePost extends AbstractPersistable<Long>{
     
     @ManyToOne
     private Account owner;
     
-    @OneToMany(mappedBy = "post")
-    private List<LikePost> likes;
+    @ManyToOne
+    private Post post;
+    
+    @Transient
+    private Long ownerId;
 }

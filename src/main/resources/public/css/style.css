@@ -35,7 +35,7 @@ form {
 
 .alert{
     position: fixed;
-    width: 300px;
+    width: 20%;
     left: 65%;
     top: 10%;
 }
@@ -51,4 +51,13 @@ form {
 
 .post {
     margin-bottom: 2rem;
+}
+
+.post-like{
+    float:right;
+}
+
+.post-liked{
+    float:right;
+    color: red;
 }

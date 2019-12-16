@@ -119,3 +119,40 @@ function removeFolloweePosts(id){
     postEl.parentNode.removeChild(postEl);
 });
 }
+
+function like(postId){
+    var httpLikePost = new XMLHttpRequest();
+    httpLikePost.onreadystatechange = function() {
+        if (this.readyState != 4) {
+            return;
+        }
+
+        response = JSON.parse(this.responseText);
+        
+        if(response.goodMsg){
+            /*var spanLikeCounter = document.querySelector("#post-" + postId + " span.post-like span");
+            var spanLike = document.querySelector("#post-" + postId + " span.post-like");
+            spanLike.removeAttribute("class");
+            spanLike.setAttribute("class", "post-liked");*/
+            
+            var spanLikeCounter = document.querySelector("#post-" + postId + " span.post-like span");
+            spanLikeCounter.textContent = Number.parseInt(spanLikeCounter.textContent) + 1;
+        }
+        
+        if(!response.goodMsg){
+            /*var spanLikeCounter = document.querySelector("#post-" + postId + " span.post-liked span");
+            var spanLike = document.querySelector("#post-" + postId + " span.post-liked");
+            spanLike.removeAttribute("class");
+            spanLike.setAttribute("class", "post-like");*/
+            
+            var spanLikeCounter = document.querySelector("#post-" + postId + " span.post-like span");
+            var likeCounter = Number.parseInt(spanLikeCounter.textContent);
+            if(likeCounter > 0){
+               spanLikeCounter.textContent = likeCounter - 1; 
+            }
+        }
+    }
+    
+    httpLikePost.open("POST", "/posts/" + postId + "/like");
+    httpLikePost.send();
+}
