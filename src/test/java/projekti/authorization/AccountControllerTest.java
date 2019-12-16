@@ -50,9 +50,4 @@ public class AccountControllerTest {
         assertTrue(aksu.getUsername().equals("alex"));
     }
     
-    @After
-    public void deleteAllUsers(){
-        accountRepository.deleteAll();
-    }
-    
 }

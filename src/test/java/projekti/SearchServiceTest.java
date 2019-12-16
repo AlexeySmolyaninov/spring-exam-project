@@ -2,6 +2,7 @@ package projekti;
 
 import java.util.List;
 import java.util.Objects;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -17,6 +19,9 @@ import projekti.account.AccountService;
 
 import projekti.account.Account;
 import projekti.account.AccountRepository;
+
+//mockMvc get- and poost methods
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 /**
  *
@@ -40,7 +45,6 @@ public class SearchServiceTest {
     
     @Before
     public void createUsers(){
-        accountService.createAccount("alex", "alex", "Alexander", "Val", "bigal");
         accountService.createAccount("jordan", "jordan", "Michael", "Jordan", "flyman");
         accountService.createAccount("lebron", "lebron", "James", "Lebron", "dunkman");
     }
@@ -69,6 +73,10 @@ public class SearchServiceTest {
                 .filter(account -> Objects.equals(account.getProfileName(), "flyman"))
                 .count() == 1
         );
+    }
+    
+    @After
+    public void resetDB() throws Exception{
     }
  
 }
